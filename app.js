@@ -17,7 +17,7 @@ function Product(imageName, src){
 Product.prototype.renderProductAsHTML = function() {
   var target = document.getElementById('listOfProducts');
   var productLi = document.createElement('li');
-  
+
   var productImage = document.createElement('img');
   productImage.src = this.imageSrc;
   productImage.alt = this.imageName;
@@ -47,26 +47,26 @@ function handleProductClick(event) {
     }
   } else {
     console.log('please choose and click an image');
-   }
+  }
 }
 
 //event listener appended to HTML where images are displayed (li, likely)
 function displayProducts(){
-  
+
   var index1 = Math.floor(Math.random() * productArray.length);
   var index2 = Math.floor(Math.random() * productArray.length);
   var index3 = Math.floor(Math.random() * productArray.length);
   var index4 = Math.floor(Math.random() * productArray.length);
   var index5 = Math.floor(Math.random() * productArray.length);
   var index6 = Math.floor(Math.random() * productArray.length);
-  
+
   var newProduct1 = productArray[index1];
   var newProduct2 = productArray[index2];
   var newProduct3 = productArray[index3];
   var newProduct4 = productArray[index4];
   var newProduct5 = productArray[index5];
   var newProduct6 = productArray[index6];
-  
+
   var productList = document.getElementById('listOfProducts');
   productList.innerHTML = '';
   newProduct1.renderProductAsHTML();
@@ -76,7 +76,6 @@ function displayProducts(){
   newProduct5.renderProductAsHTML();
   newProduct6.renderProductAsHTML();
 }
-
 
 //function calls
 
