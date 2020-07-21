@@ -4,7 +4,7 @@ var productArray = [];
 var totalClicks = 0;
 var maximumClicks = 5;
 //this below var will need to correspond with the index of the displayed product
-var productIndexCurrentlyOnPage = [];
+
 
 //constructor function to make an object: name, image src, clicks.
 //constructor needs: a property that holds number of times the product has been clicked; after every selection update the newly added property to indicate it was clicked.
@@ -49,6 +49,7 @@ function handleProductClick(event) {
       var listOfProducts = document.getElementById('listOfProducts');
       listOfProducts.removeEventListener('click', handleProductClick);
       renderVotes();
+      //render chart function will go here
     }
   } else {
     console.log('please choose and click an image');
@@ -81,6 +82,7 @@ function displayProducts(){
   var newProduct3 = productArray[index3];
 
   //need to create a loop to re-shuffle the product display if there are duplicates, or if the product matches one from a previous display
+  //also need to DISPLAY INLINE
 
   // while(
   //   index1 === productIndexCurrentlyOnPage[0] ||
@@ -130,15 +132,27 @@ new Product('Meatball Bubblegum', 'img/bubblegum.jpg');
 
 displayProducts();
 
+//we will need to wrap chart in a function and call it after max clicks is reached
+
 //here is the generic chart.js
 
-<canvas id="myChart" width="400" height="400"></canvas>
+//CHART GOALS:
+//1. Make a label array and a for loop
+//var productLabelArray = productArray;
+//for(var i = 0; i < productArray.length; i++)
+  //productLabelArray.push(productArray[i].imageName);
+
+  //var productData = [];
+    //for(var i = 0; i < productArray.length; i++);
+    //productData.push(productArray[i].votes);
+
+{/* <canvas id="myChart" width="400" height="400"></canvas>
 <script>
 var ctx = document.getElementById('myChart').getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'bar',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    data: productDataArray
+        labels: productLabelArray,
         datasets: [{
             label: '# of Votes',
             data: [12, 19, 3, 5, 2, 3],
@@ -171,10 +185,4 @@ var myChart = new Chart(ctx, {
         }
     }
 });
-</script>
-
-//on click, generate three new products at random
-
-//display all products with number of vots and number of times shown
-
-//generate three random product images from img dir and display inline
+</script> */}
