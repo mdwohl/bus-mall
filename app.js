@@ -17,7 +17,7 @@ function Product(imageName, src){
 
 Product.prototype.renderProductAsHTML = function() {
   var target = document.getElementById('listOfProducts');
-  var productLi = document.createElement('li');
+  var productLi = document.createElement('td');
 
   var productImage = document.createElement('img');
   productImage.src = this.imageSrc;
