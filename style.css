@@ -16,9 +16,14 @@ h1 {
 img {
   width: 15%;
   height: 15%;
+  display: inline-block;
 }
 
 ul {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+/* #listOfProducts {
+  display: inline-block;
+} */

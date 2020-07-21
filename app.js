@@ -4,10 +4,7 @@ var productArray = [];
 var totalClicks = 0;
 var maximumClicks = 5;
 //this below var will need to correspond with the index of the displayed product
-var productIndexCurrentlyOnPage = [];
-
-//constructor function to make an object: name, image src, clicks.
-//constructor needs: a property that holds number of times the product has been clicked; after every selection update the newly added property to indicate it was clicked.
+var productIndexPreviouslyOnPage = [1,2,3];
 
 function Product(imageName, src){
   this.votes = 0;
@@ -20,7 +17,7 @@ function Product(imageName, src){
 
 Product.prototype.renderProductAsHTML = function() {
   var target = document.getElementById('listOfProducts');
-  var productLi = document.createElement('li');
+  var productLi = document.createElement('td');
 
   var productImage = document.createElement('img');
   productImage.src = this.imageSrc;
@@ -48,7 +45,10 @@ function handleProductClick(event) {
     if(totalClicks === maximumClicks){
       var listOfProducts = document.getElementById('listOfProducts');
       listOfProducts.removeEventListener('click', handleProductClick);
-      renderVotes();
+      // renderVotes();
+      renderGraphOnPage();
+
+      //render chart function will go here
     }
   } else {
     console.log('please choose and click an image');
@@ -61,7 +61,7 @@ function renderVotes() {
 
   var productVotes = document.getElementById('votes');
   var renderTotalsText = document.createElement('li');
-  renderTotalsText.textContent = 'Totals Per Product:'
+  renderTotalsText.textContent = 'Totals Per Product:';
   productVotes.appendChild(renderTotalsText);
   for(var i = 0; i < productArray.length; i++) {
     var votesLi = document.createElement('li');
@@ -72,37 +72,41 @@ function renderVotes() {
 //event listener appended to HTML where images are displayed (li, likely)
 function displayProducts(){
 
-  var index1 = Math.floor(Math.random() * productArray.length);
-  var index2 = Math.floor(Math.random() * productArray.length);
-  var index3 = Math.floor(Math.random() * productArray.length);
+  //need to create a loop to re-shuffle the product display if there are duplicates, or if the product matches one from a previous display
+  //also need to DISPLAY INLINE
 
+  var index1 = Math.floor(Math.random() * productArray.length);
+  while(
+    index1 === productIndexPreviouslyOnPage[0] ||
+    index1 === productIndexPreviouslyOnPage[1] ||
+    index1 === productIndexPreviouslyOnPage[2])
+  {
+    index1 = Math.floor(Math.random() * productArray.length);
+  }
+
+  var index2 = Math.floor(Math.random() * productArray.length);
+  while(
+    index2 === productIndexPreviouslyOnPage[0] ||
+      index2 === productIndexPreviouslyOnPage[1] ||
+      index2 === productIndexPreviouslyOnPage[2] ||
+      index2 === index1)
+  {
+    index2 = Math.floor(Math.random() * productArray.length);
+  }
+
+  var index3 = Math.floor(Math.random() * productArray.length);
+  while(
+    index3 === productIndexPreviouslyOnPage[0] ||
+    index3 === productIndexPreviouslyOnPage[1] ||
+    index3 === productIndexPreviouslyOnPage[2] ||
+    index3 === index2 ||
+    index3 === index1){
+    index3 = Math.floor(Math.random() * productArray.length);
+  }
+  productIndexPreviouslyOnPage = [index1, index2, index3];
   var newProduct1 = productArray[index1];
   var newProduct2 = productArray[index2];
   var newProduct3 = productArray[index3];
-
-  //need to create a loop to re-shuffle the product display if there are duplicates, or if the product matches one from a previous display
-
-  // while(
-  //   index1 === productIndexCurrentlyOnPage[0] ||
-  //   index1 === productIndexCurrentlyOnPage[1] ||
-  //   index1 === productIndexCurrentlyOnPage[2] ||
-  //   index1 === index2 ||
-  //   index1 === index3 ||
-
-  //   index2 === productIndexCurrentlyOnPage[0] ||
-  //   index2 === productIndexCurrentlyOnPage[1] ||
-  //   index2 === productIndexCurrentlyOnPage[2] ||
-  //   index2 === index1 ||
-  //   index2 === index3 ||
-
-  //   index3 === productIndexCurrentlyOnPage[0] ||
-  //   index3 === productIndexCurrentlyOnPage[1] ||
-  //   index3 === productIndexCurrentlyOnPage[2] ||
-  //   index3 === index2 ||
-  //   index3 === index1
-  // ){
-  //   Math.floor(Math.random() * productArray.length);
-  // }
 
   var productList = document.getElementById('listOfProducts');
   productList.innerHTML = '';
@@ -115,7 +119,61 @@ function displayProducts(){
 }
 //when new products display, we'll need to update what is on the page
 
+//we will need to wrap chart in a function and call it after max clicks is reached
 
+//here is the generic chart.js
+
+//CHART GOALS:
+//1. Make a label array and a for loop
+function renderGraphOnPage (){
+  var productLabelArray = [];
+  for(var i = 0; i < productArray.length; i++) {
+    productLabelArray.push(productArray[i].imageName);
+  }
+
+  var productData = [];
+  for(var j = 0; j < productArray.length; j++) {
+    productData.push(productArray[j].votes);
+  }
+
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: productLabelArray,
+      datasets: [{
+        label: '# of Votes',
+        data: productData,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+}
 //function calls
 
 var listOfProducts = document.getElementById('listOfProducts');
@@ -129,52 +187,3 @@ new Product('Breakfast Maker', 'img/breakfast.jpg');
 new Product('Meatball Bubblegum', 'img/bubblegum.jpg');
 
 displayProducts();
-
-//here is the generic chart.js
-
-<canvas id="myChart" width="400" height="400"></canvas>
-<script>
-var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
-});
-</script>
-
-//on click, generate three new products at random
-
-//display all products with number of vots and number of times shown
-
-//generate three random product images from img dir and display inline
