@@ -1,1 +1,1 @@
-# With acknowledgement to the help from my partners, Riva and Matt. Paul and Krys also joined us.
+# With acknowledgement to the help from my partners, Riva and Matt. Paul and Krys also joined us. Thank you also to Skyler for helping me tremendously when I was (frequently) lost.
