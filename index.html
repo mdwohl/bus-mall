@@ -9,15 +9,21 @@
 </head>
 <body>
   <h1>BusMall Products</h1>
-   <table>
-    <tr id="listOfProducts">
-    <td></td>
-  </tr>
-  </table>
+  <article>
+    <p>Stuck on the 62 on Dexter Ave? Riding the 70, waitingon the University Bridge during boat season? Soothe yourself with commerce! BusMall is a product catalogue available on every Metro Bus, suitable for browsing and shopping while on your commute. We're asking Metro riders to help us select relevant products so we can provide the best service and inventory possible. Please select the product that interests you most from the following by clicking directly on the product image.</p>
+  </article>
+    
+  <table id="productTable">
+      <tr id="listOfProducts">
+        <td></td>
+      </tr>
+    </table>
     
   <ul id="votes">
   </ul>
-  <canvas id="myChart" width="400" height="400"></canvas>
+  <div class="containChart">
+    <canvas id="myChart" width="400" height="400"></canvas>
+  </div>
   <script src="app.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 </body>
